@@ -4,7 +4,7 @@ QT += core gui widgets
 
 TEMPLATE = lib
 CONFIG += staticlib
-TARGET = askelib_widgets$${LIB_SUFFIX}
+TARGET = askelib_widgets$${ASKE_LIB_SUFFIX}
 
 # Input
 SOURCES += texteditor/texteditor.cpp \

@@ -2,7 +2,7 @@ include( ../common.pri )
 
 TEMPLATE = lib
 CONFIG += staticlib
-TARGET = askelib_std$${LIB_SUFFIX}
+TARGET = askelib_std$${ASKE_LIB_SUFFIX}
 
 # Input
 HEADERS += opt.h \
