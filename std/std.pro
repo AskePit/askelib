@@ -1,6 +1,6 @@
 TEMPLATE = lib
 CONFIG += staticlib
-TARGET = std
+TARGET = askelib_std
 
 # Input
 HEADERS += opt.h \
