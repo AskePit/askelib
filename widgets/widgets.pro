@@ -31,3 +31,23 @@ HEADERS  += texteditor/texteditor.h \
     texteditor/syntax.h
 
 INCLUDEPATH += ..
+
+askelib_config = findAskelibConfig()
+askelib_config {
+    lines = $$cat("config.ini", lines)
+    for (line, lines) {
+        # vlc_use option
+        t = $$lower( $$replace(line, "^vlc_use\\s*=\\s*(\\S+)$", "\\1") )
+        !isEqual(t, $$line) {
+            DEFINES *= ASKELIB_USE_VLC
+
+            # vlc_path option
+            t = $$replace(line, "^vlc_path\\s*=\\s*(\\S+)$", "\\1")
+            !isEqual(t, $$line) {
+                VLC_PATH = $$t
+                INCLUDEPATH += $${VLC_PATH}/include
+                LIBS += -L$${VLC_PATH}/lib -llibvlccore -llibvlc
+            }
+        }
+    }
+}
