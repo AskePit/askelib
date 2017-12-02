@@ -1,6 +1,8 @@
 #ifndef ASKELIB_STD_OPT_H
 #define ASKELIB_STD_OPT_H
 
+#include <utility>
+
 namespace aske {
 
 template <typename T>
