@@ -6,8 +6,8 @@
 #endif
 
 #ifdef VIDEO_SUPPORT
-#include "videoplayer.h"
-#include "ui_videoplayerwidget.h"
+namespace aske { class VideoPlayer; }
+namespace Ui { class VideoPlayerWidget; }
 #endif
 
 #include <QScrollArea>
@@ -85,7 +85,7 @@ private:
 
 #ifdef VIDEO_SUPPORT
     QWidget m_videoWidget;
-    Ui::VideoPlayerWidget m_videoUi;
+    Ui::VideoPlayerWidget *m_videoUi;
 #endif
 
     MediaMode m_mediaMode { MediaMode::Image };
@@ -95,7 +95,7 @@ private:
     QImage m_image;
     QMovie m_gifPlayer;
 #ifdef VIDEO_SUPPORT
-    VideoPlayer m_videoPlayer;
+    VideoPlayer *m_videoPlayer;
 #endif
 
     QSize m_gifOriginalSize;

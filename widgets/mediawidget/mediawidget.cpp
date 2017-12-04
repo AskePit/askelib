@@ -1,6 +1,11 @@
 #include "mediawidget.h"
 #include "config.h"
 
+#ifdef VIDEO_SUPPORT
+#include "videoplayer.h"
+#include "ui_videoplayerwidget.h"
+#endif
+
 #include <QApplication>
 #include <QDir>
 #include <QResizeEvent>
@@ -58,7 +63,9 @@ MediaWidget::MediaWidget(QWidget *parent)
     , m_mediaWidgetLayout(&m_mediaWidget)
     , m_imageView(&m_mediaWidget)
 #ifdef VIDEO_SUPPORT
+    , m_videoPlayer(new VideoPlayer)
     , m_videoWidget(&m_mediaWidget)
+    , m_videoUi(new Ui::VideoPlayerWidget)
 #endif
 {
     setWidgetResizable(true);
@@ -79,15 +86,15 @@ MediaWidget::MediaWidget(QWidget *parent)
     m_mediaWidgetLayout.addWidget(&m_imageView);
 
 #ifdef VIDEO_SUPPORT
-    m_videoUi.setupUi(&m_videoWidget);
+    m_videoUi->setupUi(&m_videoWidget);
     m_mediaWidgetLayout.addWidget(&m_videoWidget);
 #endif
 
     setMouseTracking(true);
 
 #ifdef VIDEO_SUPPORT
-    m_videoPlayer.setWidgets(m_videoUi.videoView, m_videoUi.progressSlider, m_videoUi.volumeSlider, m_videoUi.codecErrorLabel);
-    connect(&m_videoPlayer, &aske::VideoPlayer::loaded, this, [this](){calcVideoFactor(m_videoPlayer.size());}, Qt::QueuedConnection);
+    m_videoPlayer->setWidgets(m_videoUi->videoView, m_videoUi->progressSlider, m_videoUi->volumeSlider, m_videoUi->codecErrorLabel);
+    connect(m_videoPlayer, &aske::VideoPlayer::loaded, this, [this](){calcVideoFactor(m_videoPlayer->size());}, Qt::QueuedConnection);
 #endif
 
     setMediaMode(MediaMode::No);
@@ -104,9 +111,9 @@ void MediaWidget::resizeEvent(QResizeEvent *event)
     using namespace MediaWidgetTune;
 
     QRect window { QPoint{}, event->size()};
-    QRect label { m_videoUi.codecErrorLabel->rect() };
-    QRect volume { m_videoUi.volumeSlider->rect() };
-    QRect progress { m_videoUi.progressSlider->rect() };
+    QRect label { m_videoUi->codecErrorLabel->rect() };
+    QRect volume { m_videoUi->volumeSlider->rect() };
+    QRect progress { m_videoUi->progressSlider->rect() };
 
     constexpr int pad { slider::pad };
 
@@ -118,9 +125,9 @@ void MediaWidget::resizeEvent(QResizeEvent *event)
     progress.setWidth(window.width()-2*pad);
 
 
-    m_videoUi.codecErrorLabel->setGeometry(label);
-    m_videoUi.volumeSlider->setGeometry(volume);
-    m_videoUi.progressSlider->setGeometry(progress);
+    m_videoUi->codecErrorLabel->setGeometry(label);
+    m_videoUi->volumeSlider->setGeometry(volume);
+    m_videoUi->progressSlider->setGeometry(progress);
 }
 #endif
 
@@ -190,7 +197,7 @@ bool MediaWidget::loadVideo()
 {
     QString filePath { m_currentFile.absoluteFilePath() };
     setMediaMode(MediaMode::Video);
-    m_videoPlayer.load(filePath);
+    m_videoPlayer->load(filePath);
 
     return true;
 }
@@ -203,9 +210,9 @@ void MediaWidget::setMediaMode(MediaMode type)
     m_mediaMode = type;
     m_scaleFactor = zoom::origin;
 #ifdef VIDEO_SUPPORT
-    m_videoUi.progressSlider->setValue(0);
-    m_videoUi.volumeSlider->setValue(0);
-    m_videoUi.codecErrorLabel->hide();
+    m_videoUi->progressSlider->setValue(0);
+    m_videoUi->volumeSlider->setValue(0);
+    m_videoUi->codecErrorLabel->hide();
 #endif
     m_imageView.clear();
 
@@ -220,7 +227,7 @@ void MediaWidget::setMediaMode(MediaMode type)
 #endif
     } else {
 #ifdef VIDEO_SUPPORT
-        m_videoPlayer.stop();
+        m_videoPlayer->stop();
         m_videoWidget.hide();
 #endif
         m_gifPlayer.stop();
@@ -268,9 +275,9 @@ void MediaWidget::calcVideoFactor(const QSizeF &nativeSize)
 
     QRectF geom(pos, s);
 
-    m_videoUi.videoView->setGeometry(geom.toRect());
-    m_videoUi.videoView->setMaximumSize(geom.size().toSize());
-    m_videoUi.videoView->setMinimumSize(geom.size().toSize());
+    m_videoUi->videoView->setGeometry(geom.toRect());
+    m_videoUi->videoView->setMaximumSize(geom.size().toSize());
+    m_videoUi->videoView->setMinimumSize(geom.size().toSize());
 }
 #endif
 
@@ -308,7 +315,7 @@ void MediaWidget::applyGif()
 void MediaWidget::videoRewind(Direction dir)
 {
     VideoPlayer::Direction d = static_cast<VideoPlayer::Direction>(dir);
-    m_videoPlayer.rewind(d, MediaWidgetTune::video::rewind);
+    m_videoPlayer->rewind(d, MediaWidgetTune::video::rewind);
 }
 #endif
 
@@ -354,7 +361,7 @@ bool MediaWidget::volumeStep(Direction dir, InputType type)
 {
     using namespace MediaWidgetTune;
 
-    int value {m_videoUi.volumeSlider->value()};
+    int value {m_videoUi->volumeSlider->value()};
 
     if((value == volume::min && dir == Direction::Backward)
     || (value == volume::max && dir == Direction::Forward)) {
@@ -364,7 +371,7 @@ bool MediaWidget::volumeStep(Direction dir, InputType type)
     value += volume::factors[dir][type];
 
     value = qBound(volume::min, value, volume::max);
-    m_videoUi.volumeSlider->setValue(value);
+    m_videoUi->volumeSlider->setValue(value);
     return true;
 }
 #endif
@@ -415,8 +422,8 @@ void MediaWidget::onClick()
     using namespace MediaWidgetTune;
 
 #ifdef VIDEO_SUPPORT
-    QWidget *w { m_videoUi.videoView->childAt(m_clickPoint) };
-    if(w == m_videoUi.volumeSlider || w == m_videoUi.progressSlider) {
+    QWidget *w { m_videoUi->videoView->childAt(m_clickPoint) };
+    if(w == m_videoUi->volumeSlider || w == m_videoUi->progressSlider) {
         return;
     }
 #endif
@@ -434,7 +441,7 @@ void MediaWidget::onClick()
 #ifdef VIDEO_SUPPORT
     } else {
         if(m_mediaMode == MediaMode::Video) {
-            m_videoPlayer.toggle();
+            m_videoPlayer->toggle();
         }
 #endif
     }
@@ -480,7 +487,7 @@ bool MediaWidget::event(QEvent *event)
                 case Qt::Key_Down:   zoomOrVolumeStep(Direction::Backward, InputType::Button); return true;
                 case Qt::Key_Space:
 #ifdef VIDEO_SUPPORT
-                                     if(videoMode) m_videoPlayer.toggle(); return true;
+                                     if(videoMode) m_videoPlayer->toggle(); return true;
 #else
                 //[[fallthrough]]
 #endif
@@ -512,7 +519,7 @@ bool MediaWidget::event(QEvent *event)
         case QEvent::MouseMove: {
 #ifdef VIDEO_SUPPORT
             if(videoMode) {
-                m_videoPlayer.showSliders();
+                m_videoPlayer->showSliders();
             }
 #endif
 
