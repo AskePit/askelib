@@ -23,7 +23,7 @@ const std::map<Syntax::t, QStringList> Syntax::extensions = {
     {Syntax::Fortran, {"f", "for", "ftn", "f90", "f95", "f03", "f08",}},
     {Syntax::Haskell, {"hs", "lhs",}},
     {Syntax::Html, {"html", "htm", "htmls",}},
-    {Syntax::Ini, {"ini", "bashrc", "gitconfig"}},
+    {Syntax::Ini, {"ini", "bashrc", "gitconfig", "config"}},
     {Syntax::Java, {"java",}},
     {Syntax::JS, {"js", "json",}},
     {Syntax::Lisp, {"lisp",}},
