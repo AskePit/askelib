@@ -524,7 +524,7 @@ bool MediaWidget::event(QEvent *event)
 #endif
 
             QMouseEvent *moveEvent { static_cast<QMouseEvent *>(event) };
-            bool isLeftClicked { moveEvent->buttons() & Qt::LeftButton };
+            bool isLeftClicked { !!(moveEvent->buttons() & Qt::LeftButton) };
             if(!isLeftClicked) {
                 return false;
             }
