@@ -117,6 +117,15 @@ CppHighlighter::CppHighlighter(QTextDocument *parent)
         QStringLiteral("while"),
         QStringLiteral("xor"),
         QStringLiteral("xor_eq"),
+
+        // attributes
+        QStringLiteral("noreturn"),
+        QStringLiteral("carries_dependency"),
+        QStringLiteral("deprecated"),
+        QStringLiteral("fallthrough"),
+        QStringLiteral("nodiscard"),
+        QStringLiteral("maybe_unused"),
+        QStringLiteral("optimize_for_synchronized"),
     };
 
     //////
@@ -322,6 +331,27 @@ CppHighlighter::CppHighlighter(QTextDocument *parent)
         QStringLiteral("gslice_array"),
         QStringLiteral("mask_array"),
         QStringLiteral("indirect_array"),
+        QStringLiteral("string_view"),
+        QStringLiteral("wstring_view"),
+        QStringLiteral("u16string_view"),
+        QStringLiteral("u32string_view"),
+        QStringLiteral("any"),
+        QStringLiteral("optional"),
+        QStringLiteral("variant"),
+        QStringLiteral("byte"),
+        QStringLiteral("path"),
+        QStringLiteral("filesystem_error"),
+        QStringLiteral("directory_entry"),
+        QStringLiteral("directory_iterator"),
+        QStringLiteral("recursive_directory_iterator"),
+        QStringLiteral("file_status"),
+        QStringLiteral("space_info"),
+        QStringLiteral("file_type"),
+        QStringLiteral("perms"),
+        QStringLiteral("perm_options"),
+        QStringLiteral("copy_options"),
+        QStringLiteral("directory_options"),
+        QStringLiteral("file_time_type"),
     };
 }
 
