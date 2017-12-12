@@ -3,7 +3,7 @@
 
 namespace aske {
 
-//! Capabilities
+//! MediaWidget capabilities
 namespace MediaWidgetCapabilities
 {
     const QStringList supportedImages { "*.jpg", "*.jpeg", "*.png", "*.bmp" };
@@ -22,7 +22,7 @@ namespace MediaWidgetCapabilities
     }
 }
 
-//! Tuning
+//! MediaWidget configuration
 namespace MediaWidgetTune
 {
     namespace screen

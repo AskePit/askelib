@@ -7,9 +7,9 @@ namespace aske {
 RustHighlighter::RustHighlighter(QTextDocument *parent)
     : CLikeHighlighter(parent)
 {
-    //////
-    /// KEYWORDS
-    ////
+    //
+    // KEYWORDS
+    //
     m_keywords = QStringList {
         QStringLiteral("as"),
         QStringLiteral("box"),
@@ -70,9 +70,9 @@ RustHighlighter::RustHighlighter(QTextDocument *parent)
     };
 
 
-    //////
-    /// CLASSNAMES
-    ////
+    //
+    // CLASSNAMES
+    //
     m_classnames = QStringList {
         QStringLiteral("bool"),
         QStringLiteral("char"),

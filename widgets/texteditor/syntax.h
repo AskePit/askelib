@@ -1,3 +1,5 @@
+//! @file
+
 #ifndef SYNTAX_H
 #define SYNTAX_H
 
@@ -9,6 +11,9 @@
 namespace aske {
 namespace TextEditorPrivate {
 
+/*!
+ * @brief Syntax enumeration.
+ */
 class Syntax {
 public:
     enum t
@@ -65,9 +70,13 @@ public:
         Yaml,
     };
 
+    /*! Deduce syntax from file name. */
     static Syntax::t fromFile(const QString &fileName);
 
+    /*! Get syntax highlighter by `Syntax::t` enumeration. */
     static QSyntaxHighlighter *getHighlighter(Syntax::t syntax);
+
+    /*! Get syntax highlighter by file name. */
     static QSyntaxHighlighter *getHighlighter(const QString &fileName) {
         return getHighlighter(Syntax::fromFile(fileName));
     }
@@ -79,6 +88,7 @@ private:
 
 } // namespace TextEditorPrivate
 
+/*! Detect if file contains code (deduce from it's extension). */
 inline bool isCode(const QString &fileName) {
     return TextEditorPrivate::Syntax::fromFile(fileName) != TextEditorPrivate::Syntax::No;
 }

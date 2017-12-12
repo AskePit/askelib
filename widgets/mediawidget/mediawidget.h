@@ -1,3 +1,5 @@
+//! @file
+
 #ifndef ASKE_MEDIAWIDGET_H
 #define ASKE_MEDIAWIDGET_H
 
@@ -36,6 +38,13 @@ enum MediaMode
 #endif
 };
 
+/*!
+ * @brief The MediaWidget class.
+ * @details
+ *
+ * MediaWidget is able to show pitures, gifs and video
+ * (only if VIDEO_SUPPORT is defined) content.
+ */
 class MediaWidget : public QScrollArea
 {
     Q_OBJECT
@@ -49,15 +58,20 @@ public:
     explicit MediaWidget(QWidget *parent = 0);
     ~MediaWidget();
 
+    /*! Switch MediaMode. */
     void setMediaMode(MediaMode type);
 
+    /*! Load media-file. */
     bool loadFile(const QString &fileName);
+
     bool loadImage();
     bool loadGif();
     void calcImageFactor();
     void resetScale();
     void applyImage();
     void applyGif();
+
+    /*! Load next media-file in directory of current file. */
     void gotoNextFile(Direction dir);
     bool dragImage(QPoint p);
     bool zoom(Direction dir, InputType type);

@@ -25,9 +25,9 @@ PythonHighlighter::PythonHighlighter(QTextDocument *parent)
         { HighlightElement::Literal, LiteralFormat },
     };
 
-    //////
-    /// KEYWORDS
-    ////
+    //
+    // KEYWORDS
+    //
 
     m_keywords = QStringList {
         QStringLiteral("and"),
@@ -67,9 +67,9 @@ PythonHighlighter::PythonHighlighter(QTextDocument *parent)
         QStringLiteral("False"),
     };
 
-    //////
-    /// CLASSNAMES
-    ////
+    //
+    // CLASSNAMES
+    //
 
     m_classnames = QStringList {
     };

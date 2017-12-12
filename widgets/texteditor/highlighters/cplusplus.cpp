@@ -5,9 +5,9 @@ namespace aske {
 CppHighlighter::CppHighlighter(QTextDocument *parent)
     : CLikeHighlighter(parent)
 {
-    //////
-    /// PREPROCESSOR
-    ////
+    //
+    // PREPROCESSOR
+    //
 
     m_ppDirectives = QStringList {
         QStringLiteral("define"),
@@ -26,9 +26,9 @@ CppHighlighter::CppHighlighter(QTextDocument *parent)
     };
 
 
-    //////
-    /// KEYWORDS
-    ////
+    //
+    // KEYWORDS
+    //
 
     m_keywords = QStringList {
         QStringLiteral("alignas"),
@@ -128,9 +128,9 @@ CppHighlighter::CppHighlighter(QTextDocument *parent)
         QStringLiteral("optimize_for_synchronized"),
     };
 
-    //////
-    /// CLASSNAMES
-    ////
+    //
+    // CLASSNAMES
+    //
 
     m_classnames = QStringList {
         QStringLiteral("std"),

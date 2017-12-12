@@ -5,9 +5,9 @@ namespace aske {
 JSHighlighter::JSHighlighter(QTextDocument *parent)
     : CLikeHighlighter(parent)
 {
-    //////
-    /// KEYWORDS
-    ////
+    //
+    // KEYWORDS
+    //
     m_keywords = QStringList {
         QStringLiteral("abstract"),
         QStringLiteral("arguments"),
@@ -77,9 +77,9 @@ JSHighlighter::JSHighlighter(QTextDocument *parent)
     };
 
 
-    //////
-    /// CLASSNAMES
-    ////
+    //
+    // CLASSNAMES
+    //
     m_classnames = QStringList {
         QStringLiteral("Array"),
         QStringLiteral("Date"),

@@ -1,3 +1,5 @@
+//! @file
+
 #ifndef MEMORYTEXTEDITOR_H
 #define MEMORYTEXTEDITOR_H
 
@@ -8,7 +10,14 @@
 class QSyntaxHighlighter;
 
 namespace aske {
-
+/*!
+ * @brief The TextEditor class
+ *
+ * @details
+ * `QPlainTextEdit` extension which allows 3 modes: Text, Code, Binary.
+ * Syntax highlight support.
+ * Intelligent "code/text/binary" auto-detection.
+ */
 class TextEditor : public QPlainTextEdit
 {
     Q_OBJECT
@@ -29,15 +38,38 @@ public:
 
     explicit TextEditor(QWidget *parent = 0);
     explicit TextEditor(Type::mask types = Type::Text, QWidget *parent = 0);
+
+    /*! Set allowed types for text editor.
+     *
+     * @details
+     * Ex.: setTypes(aske::TextEditor::Type::Text | aske::TextEditor::Type::Code)
+     */
     void setTypes(Type::mask types);
+
+    /*! Forced switch to text editor type regardless of it's content. */
     void switchToType(Type::t types);
-    void openFile(const QString &m_fileName);
-    void saveFile(const QString &m_fileName);
+
+    /*! Load data from `fileName`. Text editor's type will be changed automatically. */
+    void openFile(const QString &fileName);
+
+    /*! Save data from text editor to `fileName`. */
+    void saveFile(const QString &fileName);
+
+    /*! Save current file.
+     *
+     * @details
+     * This function does nothing if there is no current file.
+     */
     void saveFile();
-    Type::mask types() { return m_allowedTypes; } //! Types of text editor
-    Type::t currentType() { return m_currentType; } //! Current content type
+
+    /*! Types of text editor */
+    Type::mask types() { return m_allowedTypes; }
+
+    /*! Current content type */
+    Type::t currentType() { return m_currentType; }
 
 public slots:
+    /*! This slot should be invoked if text editor's file name was changed. */
     void onFileRenamed(const QString &fileName);
 
 protected:
