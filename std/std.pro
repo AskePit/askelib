@@ -10,7 +10,8 @@ TARGET = askelib_std$${ASKE_LIB_SUFFIX}
 HEADERS += opt.h \
 	mask.h \
     fs.h \
-    money.h
+    money.h \
+    tree.h
 
 SOURCES += \
     fs.cpp
