@@ -119,6 +119,18 @@ public:
         return node;
     }
 
+    Node *addChildAt(const T &data, size_t position) {
+        auto node = new Node(data, this);
+        children.insert(children.begin() + position, node);
+        return node;
+    }
+
+    void removeChildAt(size_t position) {
+        Node *node = children[position];
+        children.erase(children.begin() + position);
+        delete node;
+    }
+
     void detach() {
         if(!parent) {
             return;
