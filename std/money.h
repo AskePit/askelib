@@ -135,10 +135,10 @@ private:
     int m_centsPerUnit {100};
 };
 
-Money operator+(const Money &m1, const Money &m2) { return Money(m1.as_cents() + m2.as_cents()); }
-Money operator-(const Money &m1, const Money &m2) { return Money(m1.as_cents() - m2.as_cents()); }
-Money operator*(const Money &m1, const Money &m2) { return Money(m1.as_cents() * m2.as_cents()); }
-Money operator/(const Money &m1, const Money &m2) { return Money(m1.as_cents() / m2.as_cents()); }
-Money operator%(const Money &m1, const Money &m2) { return Money(m1.as_cents() % m2.as_cents()); }
+Money operator+(const Money &m1, const Money &m2);
+Money operator-(const Money &m1, const Money &m2);
+Money operator*(const Money &m1, const Money &m2);
+Money operator/(const Money &m1, const Money &m2);
+Money operator%(const Money &m1, const Money &m2);
 
 #endif //ASKELIB_STD_DECIMAL_H

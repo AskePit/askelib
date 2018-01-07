@@ -14,4 +14,5 @@ HEADERS += opt.h \
     tree.h
 
 SOURCES += \
-    fs.cpp
+    fs.cpp \
+    money.cpp
