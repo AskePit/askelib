@@ -10,6 +10,7 @@
 #include <vector>
 #include <memory>
 #include <type_traits>
+#include <algorithm>
 
 #define NodeList std::vector<Node<T> *>
 
@@ -121,8 +122,24 @@ public:
 
     Node *addChildAt(const T &data, size_t position) {
         auto node = new Node(data, this);
-        children.insert(children.begin() + position, node);
+        if(position < children.size()) {
+            children.insert(children.begin() + position, node);
+        } else {
+            addChild(data);
+        }
+
         return node;
+    }
+
+    void removeChild(const T &data) {
+        auto it = std::find_if(children.cbegin(), children.cend(), [&data](const Node<T> *node) {
+            return node->data == data;
+        });
+        if(it != children.end()) {
+            Node *node = *it;
+            children.erase(it);
+            delete node;
+        }
     }
 
     void removeChildAt(size_t position) {

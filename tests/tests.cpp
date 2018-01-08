@@ -10,14 +10,11 @@ static bool pass {true};
 #define printll(X) std::cout << X << std::endl << std::endl;
 
 #define TEST(EXPR) \
-    /*print("\t"#EXPR);*/ \
-    if(EXPR) /*printl("[PASS]")*/{} else { print("\t"#EXPR); printl("[FAIL]"); pass=false; }
+    if(!(EXPR)) { print("\t"#EXPR); printl("[FAIL]"); pass=false; }
 
 #define TEST_DOUBLE(X, UNITS, CENTS) \
-    print("\t"#X" == "#UNITS"."#CENTS); \
-    if((X).units_cents() == Money::money_pair(UNITS, CENTS)) \
-        printl("[PASS]") \
-    else { \
+    if((X).units_cents() != Money::money_pair(UNITS, CENTS)) { \
+        print("\t"#X" == "#UNITS"."#CENTS); \
         printl("[FAIL]"); \
         pass = false; \
     }
@@ -503,6 +500,74 @@ void testTree()
             TEST(t->child("Food")->at(2) == fish);
         }
     }
+
+    t.child("Food")->addChildAt("Milk", 1);
+
+    // Food
+    //    Bread
+    //    Milk
+    //    Sweets
+    //       Ice-Cream
+    //       Chocolate
+    //       Cookies
+    //    Meat
+    //       Pork
+    //       Fish
+    //          Salmon
+    //          Cod
+    //          Mackerel
+    //          Cat-fish
+    //          Perch
+    //       Chicken
+    //    Drinks
+    //       Alcohol
+    //          Vodka
+    //       Alcohol-free
+    //          Coke
+    //             Coka-Cola
+    //             Pepsi
+    // Rent
+    // Clothes
+    //    Pants
+    // Study
+    //    Internet-cources
+    //    Books
+
+    TEST(food->at(1)->data == "Milk");
+    TEST(food->childCount() == 5);
+
+    t.removeChild("Rent");
+    food->removeChildAt(2);
+
+    // Food
+    //    Bread
+    //    Milk
+    //    Meat
+    //       Pork
+    //       Fish
+    //          Salmon
+    //          Cod
+    //          Mackerel
+    //          Cat-fish
+    //          Perch
+    //       Chicken
+    //    Drinks
+    //       Alcohol
+    //          Vodka
+    //       Alcohol-free
+    //          Coke
+    //             Coka-Cola
+    //             Pepsi
+    // Clothes
+    //    Pants
+    // Study
+    //    Internet-cources
+    //    Books
+
+    TEST(t.childCount() == 3);
+    TEST(food->childCount() == 4);
+    TEST(t.at(1)->data == "Clothes");
+    TEST(food->at(2)->data == "Meat");
 
     printll("[Tree end]");
 }
