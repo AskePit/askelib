@@ -7,12 +7,12 @@
 #ifndef ASKELIB_STD_TREE_H
 #define ASKELIB_STD_TREE_H
 
-#include <vector>
+#include <list>
 #include <memory>
 #include <type_traits>
 #include <algorithm>
 
-#define NodeList std::vector<Node<T> *>
+#define NodeList std::list<Node<T> *>
 
 template <class T>
 class Node
@@ -81,11 +81,11 @@ public:
     }
 
     Node *at(size_t index) {
-        return children[index];
+        return *std::next(children.begin(), index);
     }
 
     const Node *at(size_t index) const {
-        return children[index];
+        return *std::next(children.cbegin(), index);
     }
 
     Node *child(const T &data) {
@@ -123,7 +123,7 @@ public:
     Node *addChildAt(const T &data, size_t position) {
         auto node = new Node(data, this);
         if(position < children.size()) {
-            children.insert(children.begin() + position, node);
+            children.insert(std::next(children.cbegin(), position), node);
         } else {
             addChild(data);
         }
@@ -143,8 +143,9 @@ public:
     }
 
     void removeChildAt(size_t position) {
-        Node *node = children[position];
-        children.erase(children.begin() + position);
+        auto it = std::next( children.cbegin(), position );
+        Node *node = *it;
+        children.erase(it);
         delete node;
     }
 
@@ -214,12 +215,12 @@ public:
         auto it = children.begin();
         while(it != children.end()) {
             if(*it == after) {
-                if(it == children.end()-1) {
+                if(it == std::prev(children.end())) {
                     children.push_back(child);
                     return;
                 }
 
-                children.insert(it+1, child);
+                children.insert(std::next(it), child);
                 return;
             }
             ++it;
