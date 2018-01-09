@@ -8,6 +8,7 @@
 #define ASKELIB_STD_TREE_H
 
 #include <list>
+#include <vector>
 #include <memory>
 #include <type_traits>
 #include <algorithm>
@@ -60,6 +61,7 @@ public:
 
     Node &operator=(Node other) {
         swap(*this, other);
+        return *this;
     }
 
     Node(Node &&other)
@@ -290,6 +292,18 @@ public:
 
     void attachSelfAsChildAt(Node *parent, size_t index) {
         parent->attachChildAt(this, index);
+    }
+
+    std::vector<const Node<T> *> toList() const {
+        std::vector<const Node<T> *> v;
+        v.push_back(this);
+
+        for(const auto *child : children) {
+            auto childList = child->toList();
+            v.insert(v.end(), childList.begin(), childList.end());
+        }
+
+        return v;
     }
 
 private:
