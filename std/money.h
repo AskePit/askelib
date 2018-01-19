@@ -67,6 +67,13 @@ public:
         return *this;
     }
 
+    bool operator==(const Money &other) const
+    {
+        return m_amount == other.m_amount
+            && m_currency == other.m_currency
+            && m_centsPerUnit == other.m_centsPerUnit;
+    }
+
     // casts
     explicit operator double() const
     {
