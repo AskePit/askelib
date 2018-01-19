@@ -238,12 +238,12 @@ public:
         const auto it = children.begin();
         while(it != children.end()) {
             if((*it)->data == data) {
-                if(it == children.end()-1) {
+                if(it == std::prev(children.end())) {
                     children.push_back(child);
                     return;
                 }
 
-                children.insert(it+1, child);
+                children.insert(std::next(it), child);
                 return;
             }
             ++it;
@@ -255,7 +255,7 @@ public:
     void attachChildAt(Node *child, size_t index) {
         child->detach();
         child->parent = this;
-        children.insert(children.begin()+index, child);
+        children.insert(std::next(children.begin(), index), child);
     }
 
     void attachSelfBefore(Node *before) {
