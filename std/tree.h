@@ -294,11 +294,11 @@ public:
         parent->attachChildAt(this, index);
     }
 
-    std::vector<const Node<T> *> toList() const {
-        std::vector<const Node<T> *> v;
+    std::vector<Node<T> *> toList() {
+        std::vector<Node<T> *> v;
         v.push_back(this);
 
-        for(const auto *child : children) {
+        for(auto *child : children) {
             auto childList = child->toList();
             v.insert(v.end(), childList.begin(), childList.end());
         }
