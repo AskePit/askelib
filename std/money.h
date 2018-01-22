@@ -10,13 +10,28 @@
 #include <stdint.h>
 #include <cassert>
 #include <utility>
+#include <QString>
 
-enum class Currency
+class Currency
 {
-    Rub,
-    Usd,
-    Eur,
-    Btc,
+public:
+
+    enum t {
+        Rub,
+        Usd,
+        Eur,
+        Btc,
+    };
+
+    static QString symbol(Currency::t type) {
+        switch(type) {
+            default:
+            case Rub: return "₽";
+            case Usd: return "$";
+            case Eur: return "€";
+            case Btc: return "฿";
+        }
+    }
 };
 
 class Money {
@@ -105,12 +120,12 @@ public:
         return {units(), cents()};
     }
 
-    Currency currency() const
+    Currency::t currency() const
     {
         return m_currency;
     }
 
-    void setCurrency(Currency currency)
+    void setCurrency(Currency::t currency)
     {
         m_currency = currency;
     }
@@ -138,7 +153,7 @@ public:
 
 private:
     intmax_t m_amount {0};
-    Currency m_currency {Currency::Rub};
+    Currency::t m_currency {Currency::Rub};
     int m_centsPerUnit {100};
 };
 
