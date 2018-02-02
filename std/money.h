@@ -52,7 +52,9 @@ public:
 
     Money(double value)
     {
-        m_amount = intmax_t(value*m_centsPerUnit);
+        double cents = value*m_centsPerUnit;
+        cents = round(cents*m_centsPerUnit)/m_centsPerUnit; // round hack
+        m_amount = intmax_t(cents);
     }
 
     friend void swap(Money& first, Money& second) // nothrow
