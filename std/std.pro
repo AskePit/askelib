@@ -11,7 +11,8 @@ HEADERS += opt.h \
 	mask.h \
     fs.h \
     money.h \
-    tree.h
+    tree.h \
+    rvector.h
 
 SOURCES += \
     fs.cpp \
