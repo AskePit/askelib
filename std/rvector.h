@@ -102,7 +102,7 @@ public:
 
     void remove(size_t position, size_t n) {
         auto first = std::next(m_v.begin(), mapIndex(position));
-        auto last = std::next(m_v.begin(), mapIndex(position+n-1));
+        auto last = std::next( std::next(m_v.begin(), mapIndex(position+n-1)) );
         m_v.erase(first, last);
     }
 
