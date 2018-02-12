@@ -15,7 +15,9 @@ static bool pass {true};
 #define TEST_DOUBLE(X, UNITS, CENTS) \
     if((X).units_cents() != Money::money_pair(UNITS, CENTS)) { \
         print("\t"#X" == "#UNITS"."#CENTS); \
-        printl("[FAIL]"); \
+        print("[FAIL]"); \
+        print("res: "); \
+        printl((X).units_cents().first << '.' << (X).units_cents().second); \
         pass = false; \
     }
 
@@ -96,6 +98,26 @@ void testMoney()
     TEST_DOUBLE(x, 241, 40);
     TEST_DOUBLE(y, 241, 40);
     TEST_DOUBLE(z, 241, 40);
+
+    Currency::setWeight(Currency::Usd, 0.5);
+    Currency::setWeight(Currency::Eur, 0.25);
+    Money dollars(2, Currency::Usd);
+    Money euro = dollars.convertToCopy(Currency::Eur);
+    TEST_DOUBLE(euro, 1, 0);
+    euro.convertTo(Currency::Usd);
+    TEST_DOUBLE(euro, 2, 0);
+    TEST(euro.currency() == Currency::Usd);
+
+    Currency::setWeight(Currency::Usd, 1);
+    Currency::setWeight(Currency::Rub, 58.17);
+
+    Money rubles(500, Currency::Rub);
+    TEST(rubles.currency() == Currency::Rub);
+    dollars = rubles;
+    TEST(dollars.currency() == Currency::Rub);
+    TEST_DOUBLE(dollars, 500, 0);
+    dollars.convertTo(Currency::Usd);
+    TEST_DOUBLE(dollars, 8, 59);
 
     printll("[Money end]");
 }

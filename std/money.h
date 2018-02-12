@@ -11,27 +11,42 @@
 #include <cassert>
 #include <utility>
 #include <QString>
+#include <map>
 
 class Currency
 {
 public:
 
     enum t {
-        Rub,
+        Default = 0,
+
+        Rub = Default,
         Usd,
         Eur,
+        Gbp,
+        Jpy,
         Btc,
+
+        UserDefined = 1024
     };
 
     static QString symbol(Currency::t type) {
         switch(type) {
-            default:
+            default: return "";
             case Rub: return "₽";
             case Usd: return "$";
             case Eur: return "€";
+            case Gbp: return "£";
+            case Jpy: return "¥";
             case Btc: return "฿";
         }
     }
+
+    static double weight(Currency::t currency);
+    static void setWeight(Currency::t currency, double weight);
+
+private:
+    static std::map<Currency::t, double> weights;
 };
 
 class Money {
@@ -42,7 +57,7 @@ public:
     Money()
     {}
 
-    Money(intmax_t units, intmax_t cents)
+    explicit Money(intmax_t units, intmax_t cents)
         : m_amount(units*m_centsPerUnit + cents)
     {}
 
@@ -50,7 +65,8 @@ public:
         : m_amount(cents)
     {}
 
-    Money(double value)
+    Money(double value, Currency::t curr = Currency::Default)
+        : m_currency(curr)
     {
         double cents = value*m_centsPerUnit;
         cents = round(cents*m_centsPerUnit)/m_centsPerUnit; // round hack
@@ -110,7 +126,12 @@ public:
         return m_centsPerUnit;
     }
 
-    std::pair<intmax_t, intmax_t> units_cents() const
+    void setCentsPerUnit(int centsPerUnit)
+    {
+        m_centsPerUnit = centsPerUnit;
+    }
+
+    money_pair units_cents() const
     {
         return {units(), cents()};
     }
@@ -125,9 +146,20 @@ public:
         m_currency = currency;
     }
 
+    void convertTo(Currency::t currency) {
+        m_amount *= Currency::weight(currency) / Currency::weight(m_currency);
+        m_currency = currency;
+    }
+
+    Money convertToCopy(Currency::t currency) const {
+        Money money(*this);
+        money.convertTo(currency);
+        return money;
+    }
+
     // arithmetic
-    Money &operator+=(const Money &other) { m_amount += other.m_amount; return *this; }
-    Money &operator-=(const Money &other) { m_amount -= other.m_amount; return *this; }
+    Money &operator+=(const Money &other);
+    Money &operator-=(const Money &other);
     Money &operator*=(double mult) { m_amount = intmax_t(m_amount*mult); return *this; }
     Money &operator/=(double div) { m_amount = intmax_t(m_amount/div); return *this; }
     Money &operator%=(intmax_t div) { m_amount %= div; return *this; }
@@ -159,20 +191,13 @@ private:
 
 Money operator+(const Money &m1, const Money &m2);
 Money operator-(const Money &m1, const Money &m2);
-Money operator*(const Money &m1, const Money &m2);
-Money operator/(const Money &m1, const Money &m2);
-Money operator%(const Money &m1, const Money &m2);
-
 Money operator+(double m1, const Money &m2);
 Money operator-(double m1, const Money &m2);
-Money operator*(double m1, const Money &m2);
-Money operator/(double m1, const Money &m2);
-Money operator%(double m1, const Money &m2);
-
 Money operator+(const Money &m1, double m2);
 Money operator-(const Money &m1, double m2);
-Money operator*(const Money &m1, double m2);
-Money operator/(const Money &m1, double m2);
-Money operator%(const Money &m1, double m2);
+
+Money operator*(const Money &m1, double mult);
+Money operator/(const Money &m1, double div);
+Money operator%(const Money &m1, intmax_t div);
 
 #endif //ASKELIB_STD_DECIMAL_H
