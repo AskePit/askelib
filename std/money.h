@@ -84,13 +84,6 @@ public:
         return *this;
     }
 
-    bool operator==(const Money &other) const
-    {
-        return m_amount == other.m_amount
-            && m_currency == other.m_currency
-            && m_centsPerUnit == other.m_centsPerUnit;
-    }
-
     // casts
     explicit operator double() const
     {
@@ -139,19 +132,24 @@ public:
     Money &operator/=(double div) { m_amount = intmax_t(m_amount/div); return *this; }
     Money &operator%=(intmax_t div) { m_amount %= div; return *this; }
 
-    bool operator==(const Money &other) { return m_amount == other.m_amount; }
-    bool operator!=(const Money &other) { return m_amount != other.m_amount; }
-    bool operator< (const Money &other) { return m_amount <  other.m_amount; }
-    bool operator<=(const Money &other) { return m_amount <= other.m_amount; }
-    bool operator> (const Money &other) { return m_amount >  other.m_amount; }
-    bool operator>=(const Money &other) { return m_amount >= other.m_amount; }
+    bool operator==(const Money &other) const
+    {
+        return m_amount == other.m_amount
+            && m_currency == other.m_currency
+            && m_centsPerUnit == other.m_centsPerUnit;
+    }
+    bool operator!=(const Money &other) const { return !((*this) == other); }
+    bool operator< (const Money &other) const { return m_amount <  other.m_amount; }
+    bool operator<=(const Money &other) const { return m_amount <= other.m_amount; }
+    bool operator> (const Money &other) const { return m_amount >  other.m_amount; }
+    bool operator>=(const Money &other) const { return m_amount >= other.m_amount; }
 
-    bool operator==(double other) { return (double)m_amount == other; }
-    bool operator!=(double other) { return (double)m_amount != other; }
-    bool operator< (double other) { return (double)m_amount <  other; }
-    bool operator<=(double other) { return (double)m_amount <= other; }
-    bool operator> (double other) { return (double)m_amount >  other; }
-    bool operator>=(double other) { return (double)m_amount >= other; }
+    bool operator==(double other) const { return (double)m_amount == other; }
+    bool operator!=(double other) const { return (double)m_amount != other; }
+    bool operator< (double other) const { return (double)m_amount <  other; }
+    bool operator<=(double other) const { return (double)m_amount <= other; }
+    bool operator> (double other) const { return (double)m_amount >  other; }
+    bool operator>=(double other) const { return (double)m_amount >= other; }
 
 private:
     intmax_t m_amount {0};
@@ -165,9 +163,16 @@ Money operator*(const Money &m1, const Money &m2);
 Money operator/(const Money &m1, const Money &m2);
 Money operator%(const Money &m1, const Money &m2);
 
-bool operator< (const Money &m1, const Money &m2);
-bool operator<=(const Money &m1, const Money &m2);
-bool operator> (const Money &m1, const Money &m2);
-bool operator>=(const Money &m1, const Money &m2);
+Money operator+(double m1, const Money &m2);
+Money operator-(double m1, const Money &m2);
+Money operator*(double m1, const Money &m2);
+Money operator/(double m1, const Money &m2);
+Money operator%(double m1, const Money &m2);
+
+Money operator+(const Money &m1, double m2);
+Money operator-(const Money &m1, double m2);
+Money operator*(const Money &m1, double m2);
+Money operator/(const Money &m1, double m2);
+Money operator%(const Money &m1, double m2);
 
 #endif //ASKELIB_STD_DECIMAL_H
