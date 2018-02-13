@@ -306,6 +306,20 @@ public:
         return v;
     }
 
+    std::vector<Node<T> *> getLeafs() {
+        std::vector<Node<T> *> v;
+        if(isLeaf()) {
+            v.push_back(this);
+        }
+
+        for(auto *child : children) {
+            auto childList = child->getLeafs();
+            v.insert(v.end(), childList.begin(), childList.end());
+        }
+
+        return v;
+    }
+
 private:
     bool m_ownedData {true};
 };
