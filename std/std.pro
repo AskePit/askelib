@@ -27,4 +27,5 @@ SOURCES += \
     pitm/pitmobject.cpp \
     pitm/pitmvalue.cpp \
     pitm/pitmparser.cpp \
-    pitm/pitmwriter.cpp
+    pitm/pitmwriter.cpp \
+    pitm/pitm.cpp
