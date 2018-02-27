@@ -132,7 +132,7 @@ static void valueToPitm(const PitmPrivate::Base *b, const PitmPrivate::Value &v,
         const double d = v.toDouble(b);
         if (qIsFinite(d)) { // +2 to format to ensure the expected precision
             const double abs = std::abs(d);
-            pitm += QByteArray::number(d, abs == static_cast<quint64>(abs) ? 'f' : 'g', QLocale::FloatingPointShortest);
+            pitm += QByteArray::number(d, abs == static_cast<quint64>(abs) ? 'f' : 'g');
         } else {
             pitm += "null"; // +INF || -INF || NaN (see RFC4627#section2.4)
         }

@@ -399,8 +399,6 @@ PitmValue &PitmValue::operator =(const PitmValue &other)
 PitmValue PitmValue::fromVariant(const QVariant &variant)
 {
     switch (variant.userType()) {
-    case QMetaType::Nullptr:
-        return PitmValue(Null);
     case QVariant::Bool:
         return PitmValue(variant.toBool());
     case QVariant::Int:
@@ -462,7 +460,6 @@ QVariant PitmValue::toVariant() const
                PitmObject(d, static_cast<PitmPrivate::Object *>(base)).toVariantMap() :
                QVariantMap();
     case Null:
-        return QVariant::fromValue(nullptr);
     case Undefined:
         break;
     }

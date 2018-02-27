@@ -340,7 +340,6 @@ bool Value::isValid(const Base *b) const
     case PitmValue::Double:
         if (latinOrIntValue)
             break;
-        Q_FALLTHROUGH();
     case PitmValue::String:
     case PitmValue::Array:
     case PitmValue::Object:
@@ -419,7 +418,6 @@ uint Value::valueToStore(const PitmValue &v, uint offset)
         if (c != INT_MAX)
             return c;
     }
-        Q_FALLTHROUGH();
     case PitmValue::String:
     case PitmValue::Array:
     case PitmValue::Object:
@@ -436,7 +434,7 @@ void Value::copyData(const PitmValue &v, char *dest, bool compressed)
     switch (v.t) {
     case PitmValue::Double:
         if (!compressed) {
-            qToLittleEndian(v.ui, dest);
+            qToLittleEndian(v.ui, (uchar*)dest);
         }
         break;
     case PitmValue::String: {

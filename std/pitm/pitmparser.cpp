@@ -809,7 +809,7 @@ bool Parser::parseNumber(PitmPrivate::Value *val, int baseOffset)
     int pos = reserveSpace(sizeof(double));
     if (pos < 0)
         return false;
-    qToLittleEndian(ui, data + pos);
+    qToLittleEndian(ui, (uchar*)(data + pos));
     if (current - baseOffset >= Value::MaxSize) {
         lastError = PitmParseError::DocumentTooLarge;
         return false;
