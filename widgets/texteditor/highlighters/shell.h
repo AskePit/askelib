@@ -24,7 +24,9 @@ protected:
         Comand,
         Key,
         Comment,
-        Arg,
+        Var,
+        Label,
+        Param
     };
 
     QMap<HighlightElement, QTextCharFormat> m_colors;
