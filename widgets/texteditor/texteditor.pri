@@ -8,7 +8,9 @@ SOURCES += texteditor/texteditor.cpp \
     texteditor/highlighters/rust.cpp \
     texteditor/highlighters/shell.cpp \
     texteditor/highlighters/tab.cpp \
+    texteditor/highlighters/sql.cpp \
     texteditor/syntax.cpp
+
 
 HEADERS += texteditor/texteditor.h \
     texteditor/highlighters/clike.h \
@@ -20,4 +22,5 @@ HEADERS += texteditor/texteditor.h \
     texteditor/highlighters/shell.h \
     texteditor/highlighters/tab.h \
     texteditor/highlighters/highlighters.h \
+    texteditor/highlighters/sql.h \
     texteditor/syntax.h

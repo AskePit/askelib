@@ -95,6 +95,7 @@ QSyntaxHighlighter *Syntax::getHighlighter(Syntax::t syntax) {
             case Syntax::Batch:
             case Syntax::Shell: highlighter = new ShellHighlighter; break;
             case Syntax::Tab: highlighter = new TabHighlighter; break;
+            case Syntax::Sql: highlighter = new SqlHighlighter; break;
             default: ;
         }
 

@@ -8,5 +8,6 @@
 #include "rust.h"
 #include "shell.h"
 #include "tab.h"
+#include "sql.h"
 
 #endif // HIGHLIGHTERS_H
