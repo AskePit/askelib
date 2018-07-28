@@ -10,22 +10,9 @@ TARGET = askelib_std$${ASKE_LIB_SUFFIX}
 HEADERS += \
     opt.h \
     mask.h \
-    fs.h \
     money.h \
     tree.h \
     rvector.h \
-    pitm/pitmarray.h \
-    pitm/pitmdocument.h \
-    pitm/pitmobject.h \
-    pitm/pitmvalue.h
 
 SOURCES += \
-    fs.cpp \
     money.cpp \
-    pitm/pitmarray.cpp \
-    pitm/pitmdocument.cpp \
-    pitm/pitmobject.cpp \
-    pitm/pitmvalue.cpp \
-    pitm/pitmparser.cpp \
-    pitm/pitmwriter.cpp \
-    pitm/pitm.cpp

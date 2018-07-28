@@ -9,8 +9,8 @@
 
 #include <stdint.h>
 #include <cassert>
+#include <cmath>
 #include <utility>
-#include <QString>
 #include <map>
 
 class Currency
@@ -30,18 +30,6 @@ public:
         UserDefined = 1024
     };
 
-    static QString symbol(Currency::t type) {
-        switch(type) {
-            default: return "";
-            case Rub: return "₽";
-            case Usd: return "$";
-            case Eur: return "€";
-            case Gbp: return "£";
-            case Jpy: return "¥";
-            case Btc: return "฿";
-        }
-    }
-
     static double weight(Currency::t currency);
     static void setWeight(Currency::t currency, double weight);
 
@@ -51,7 +39,7 @@ private:
 
 class Money {
 public:
-    typedef std::pair<intmax_t, intmax_t> money_pair;
+    using money_pair = std::pair<intmax_t, intmax_t>;
 
     // creation
     Money()
@@ -69,7 +57,7 @@ public:
         : m_currency(curr)
     {
         double cents = value*m_centsPerUnit;
-        cents = round(cents*m_centsPerUnit)/m_centsPerUnit; // round hack
+        cents = std::round(cents*m_centsPerUnit)/m_centsPerUnit; // round hack
         m_amount = intmax_t(cents);
     }
 
@@ -147,7 +135,8 @@ public:
     }
 
     void convertTo(Currency::t currency) {
-        m_amount *= Currency::weight(currency) / Currency::weight(m_currency);
+        double ratio = Currency::weight(currency) / Currency::weight(m_currency);
+        m_amount = static_cast<intmax_t>(static_cast<double>(m_amount) * ratio);
         m_currency = currency;
     }
 
