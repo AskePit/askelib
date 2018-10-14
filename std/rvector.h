@@ -41,10 +41,32 @@ public:
         std::reverse_copy(other.begin(), other.end(), m_v.begin());
     }
 
+    /*!
+     * @brief rvector move constructor
+     * @param other moved vector
+     * @details converts `std::vector` to `aske::rvector`. Raw contents is reversed to save original vectors order
+     */
     rvector(std::vector<T> &&other)
         : m_v(other)
     {
         std::reverse(m_v.begin(), m_v.end());
+    }
+
+    /*!
+     * @brief fromRawStdVector
+     * @param other original vector
+     * @details Builds `aske::rvector` from `std::vector` treating it as original raw internal data.
+     *          It doesn't reverse raw contents unlike in `rvector(std::vector<T> &&)`.
+     * @see rvector(std::vector<T> &&)
+     * @see getStdVector
+     */
+    void setStdVector(std::vector<T> other)
+    {
+        std::swap(m_v, other);
+    }
+
+    const std::vector<T>& getStdVector() const {
+        return m_v;
     }
 
     void push_front(const T &val) {
