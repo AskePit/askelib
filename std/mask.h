@@ -3,8 +3,8 @@
 #ifndef ASKELIB_STD_MASK_H
 #define ASKELIB_STD_MASK_H
 
-#include "opt.h"
 #include <bitset>
+#include <optional>
 
 namespace aske {
 
@@ -109,8 +109,8 @@ public:
     }
 
     /*! Retuns if mask has only one bit set. */
-    opt<base_type> unique() {
-        opt<base_type> u;
+    std::optional<base_type> unique() {
+        std::optional<base_type> u;
         if(count() == 1) {
             u = m;
         }
