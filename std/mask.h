@@ -46,6 +46,9 @@ public:
     mask(const mask &other)
         : m(other.m)
     {}
+    mask &operator=(const mask& other) {
+        m = other.m; return *this;
+    }
     mask &operator=(base_type val) {
         m = val; return *this;
     }
