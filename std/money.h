@@ -129,6 +129,11 @@ public:
         return m_currency;
     }
 
+    bool isZero() const
+    {
+        return m_amount == 0;
+    }
+
     void setCurrency(Currency::t currency)
     {
         m_currency = currency;
